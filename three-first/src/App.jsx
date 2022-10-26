@@ -11,7 +11,7 @@ function App() {
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
-      1,
+      0.1,
       1000
     );
     camera.position.z = 96;
@@ -33,7 +33,7 @@ function App() {
     spotLight.position.set(0, 64, 32);
     scene.add(spotLight);
 
-    const sphereGeometry = new THREE.SphereGeometry( 32, 32, 32);
+    const sphereGeometry = new THREE.SphereGeometry( 10, 32, 32);
     const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
     const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
     scene.add(sphereMesh);
@@ -41,6 +41,18 @@ function App() {
     const controls = new OrbitControls( camera, render.domElement ); 
     const stats = Stats();
     document.body.appendChild(stats.dom);
+
+    const addStar = () => {
+      const starsGeometry = new THREE.SphereGeometry( 0.2, 32, 32);
+      const starsMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
+      const starsMesh = new THREE.Mesh(starsGeometry, starsMaterial);
+
+      const [x, y, z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(300));
+
+      starsMesh.position.set(x, y, z);
+      scene.add(starsMesh);
+    }
+    Array(500).fill().forEach(addStar);
 
 
     const animate = () => {

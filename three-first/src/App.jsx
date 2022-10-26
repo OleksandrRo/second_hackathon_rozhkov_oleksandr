@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import * as THREE from 'three';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import Stats from 'three/examples/jsm/libs/stats.module';
 import './App.css'
+
 
 function App() {
   useEffect( () => {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      50,
+      75,
       window.innerWidth / window.innerHeight,
       1,
       1000
@@ -30,14 +33,21 @@ function App() {
     spotLight.position.set(0, 64, 32);
     scene.add(spotLight);
 
-    const boxGeometry = new THREE.BoxGeometry( 32, 32, 32);
-    const boxMaterial = new THREE.MeshNormalMaterial({vertexColors: THREE.FaceColors});
-    const boxMesh = new THREE.Mesh(boxGeometry, boxMaterial);
-    scene.add(boxMesh);
+    const sphereGeometry = new THREE.SphereGeometry( 32, 32, 32);
+    const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
+    const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    scene.add(sphereMesh);
+
+    const controls = new OrbitControls( camera, render.domElement ); 
+    const stats = Stats();
+    document.body.appendChild(stats.dom);
+
 
     const animate = () => {
-      boxMesh.rotation.x += 0.01;
-      boxMesh.rotation.y += 0.01;
+      // boxMesh.rotation.x += 0.01;
+      // boxMesh.rotation.y += 0.01;
+      stats.update();
+      controls.update();
       render.render(scene, camera);
       window.requestAnimationFrame(animate);
     };

@@ -16,6 +16,7 @@ import saturn_image from './textures/saturn_image.jpg';
 import uranus_image from './textures/uranus_image.jpg';
 import neptune_image from './textures/neptune_image.jpg';
 import pluto_image from './textures/pluto_image.jpg';
+import stars_image from './textures/stars_image.jpg';
 
 function App() {
   useEffect(() => {
@@ -27,7 +28,7 @@ function App() {
       0.1,
       1000
     );
-    camera.position.z = 96;
+    camera.position.z = 196;
 
     const canvas = document.getElementById('myThreeJsCanvas');
     const render = new THREE.WebGLRenderer({
@@ -50,12 +51,12 @@ function App() {
     // spotLightControl.add(spotLight.position, "x").min(-10).max(10).step(0.1);
     // spotLightControl.add(spotLight.position, "y").min(-10).max(10).step(0.1);
     
-    const spotLight = new THREE.PointLight(0xffffff, 3, 200);
+    const spotLight = new THREE.PointLight(0xffffff, 3, 500);
     scene.add(spotLight);
 
 
     const sunLoader = new THREE.TextureLoader();
-    const sunGeometry = new THREE.SphereGeometry(16, 30, 30);
+    const sunGeometry = new THREE.SphereGeometry(10, 30, 30);
     const sunMaterial = new THREE.MeshBasicMaterial({
       map: sunLoader.load(sun_image)
     });
@@ -64,7 +65,7 @@ function App() {
 
 
     const mercuryLoader = new THREE.TextureLoader();
-    const mercuryGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const mercuryGeometry = new THREE.SphereGeometry(0.038, 30, 30);
     const mercuryMaterial = new THREE.MeshStandardMaterial({
       map: mercuryLoader.load(mercury_image)
     });
@@ -75,7 +76,7 @@ function App() {
     scene.add(mercuryObj);
 
     const venusLoader = new THREE.TextureLoader();
-    const venusGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const venusGeometry = new THREE.SphereGeometry(0.09, 30, 30);
     const venusMaterial = new THREE.MeshStandardMaterial({
       map: venusLoader.load(venus_image)
     });
@@ -86,7 +87,7 @@ function App() {
     scene.add(venusObj);
 
     const earthLoader = new THREE.TextureLoader();
-    const earthGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const earthGeometry = new THREE.SphereGeometry(0.1, 30, 30);
     const earthMaterial = new THREE.MeshStandardMaterial({
       map: earthLoader.load(earth_image)
     });
@@ -97,7 +98,7 @@ function App() {
     scene.add(earthObj);
 
     const marsLoader = new THREE.TextureLoader();
-    const marsGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const marsGeometry = new THREE.SphereGeometry(0.058, 30, 30);
     const marsMaterial = new THREE.MeshStandardMaterial({
       map: marsLoader.load(mars_image)
     });
@@ -108,7 +109,7 @@ function App() {
     scene.add(marsObj);
 
     const jupiterLoader = new THREE.TextureLoader();
-    const jupiterGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const jupiterGeometry = new THREE.SphereGeometry(1, 30, 30);
     const jupiterMaterial = new THREE.MeshStandardMaterial({
       map: jupiterLoader.load(jupiter_image)
     });
@@ -119,7 +120,7 @@ function App() {
     scene.add(jupiterObj);
 
     const saturnLoader = new THREE.TextureLoader();
-    const saturnGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const saturnGeometry = new THREE.SphereGeometry(0.9, 30, 30);
     const saturnMaterial = new THREE.MeshStandardMaterial({
       map: saturnLoader.load(saturn_image)
     });
@@ -130,7 +131,7 @@ function App() {
     scene.add(saturnObj);
 
     const uranusLoader = new THREE.TextureLoader();
-    const uranusGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const uranusGeometry = new THREE.SphereGeometry(0.39, 30, 30);
     const uranusMaterial = new THREE.MeshStandardMaterial({
       map: uranusLoader.load(uranus_image)
     });
@@ -141,7 +142,7 @@ function App() {
     scene.add(uranusObj);
 
     const neptuneLoader = new THREE.TextureLoader();
-    const neptuneGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const neptuneGeometry = new THREE.SphereGeometry(0.38, 30, 30);
     const neptuneMaterial = new THREE.MeshStandardMaterial({
       map: neptuneLoader.load(neptune_image)
     });
@@ -152,7 +153,7 @@ function App() {
     scene.add(neptuneObj);
 
     const plutoLoader = new THREE.TextureLoader();
-    const plutoGeometry = new THREE.SphereGeometry(3.2, 30, 30);
+    const plutoGeometry = new THREE.SphereGeometry(0.018, 30, 30);
     const plutoMaterial = new THREE.MeshStandardMaterial({
       map: plutoLoader.load(pluto_image)
     });
@@ -162,7 +163,6 @@ function App() {
     pluto.position.x =108;
     scene.add(plutoObj);
 
-  // ////////////////////////////////////////////////////
 
 
     const myAvatar = new THREE.TextureLoader();
@@ -185,7 +185,7 @@ function App() {
 
 
     const addStar = () => {
-      const starsGeometry = new THREE.SphereGeometry(0.2, 30, 30, 30);
+      const starsGeometry = new THREE.SphereGeometry(0.1, 30, 30, 30);
       const starsMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
       const starsMesh = new THREE.Mesh(starsGeometry, starsMaterial);
 
@@ -194,17 +194,34 @@ function App() {
       starsMesh.position.set(x, y, z);
       scene.add(starsMesh);
     }
-    Array(500).fill().forEach(addStar);
+    Array(600).fill().forEach(addStar);
 
 
     const spaceTexture = new THREE.TextureLoader();
-    scene.background = spaceTexture.load(space_image)
+    scene.background = spaceTexture.load(stars_image)
 
 
     const animate = () => {
       sun.rotateY(-0.001);
       mercury.rotateY(-0.003);
-      mercuryObj.rotateY(0.03);
+      mercuryObj.rotateY(0.0088);
+      venus.rotateY(-0.005);
+      venusObj.rotateY(0.000264);
+      earth.rotateY(-0.007);
+      earthObj.rotateY(0.000365);
+      mars.rotateY(-0.003);
+      marsObj.rotateY(0.000687);
+      jupiter.rotateY(-0.003);
+      jupiterObj.rotateY(0.0004332);
+      saturn.rotateY(-0.003);
+      saturnObj.rotateY(0.00010759);
+      uranus.rotateY(-0.003);
+      uranusObj.rotateY(0.00030685);
+      neptune.rotateY(-0.003);
+      neptuneObj.rotateY(0.00060190);
+      pluto.rotateY(-0.003);
+      plutoObj.rotateY(0.00090613);
+
       my.rotation.y += 0.01;
       stats.update();
       controls.update();

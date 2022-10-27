@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import * as THREE from 'three';
-import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
 import * as dat from 'dat.gui';
 import './App.css';
 import space from './textures/space.jpg';
+import avatar from './textures/avatar.jpg';
+import { TextureLoader } from 'three';
 
 function App() {
-  useEffect( () => {
+  useEffect(() => {
     const gui = new dat.GUI();
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
@@ -40,30 +42,50 @@ function App() {
     spotLightControl.add(spotLight.position, "y").min(-10).max(10).step(0.1);
 
 
-    const sphereGeometry = new THREE.SphereGeometry( 16, 30, 30);
-    const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
+    const sphereGeometry = new THREE.SphereGeometry(16, 30, 30);
+    const sphereMaterial = new THREE.MeshPhongMaterial({ color: 0xffff00 });
     const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
     scene.add(sphereMesh);
 
-    // const boxAvatar = new THREE.SphereGeometry( 16, 30, 30);
-    // const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
-    // const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
-    // scene.add(sphereMesh);
 
-    const controls = new OrbitControls( camera, render.domElement ); 
+
+    // const qqspaceTexture = new THREE.TextureLoader();
+    // scene.background = qqspaceTexture.load(space)
+
+    const myAvatar = new THREE.TextureLoader();
+    const boxAvatar = new THREE.BoxGeometry(10, 10, 10)
+    const avatarMaterial = new THREE.MeshBasicMaterial({
+      map: myAvatar.load(avatar)
+    });
+    const my = new THREE.Mesh(boxAvatar, avatarMaterial);
+    my.position.set(50, 10, 5);
+    scene.add(my)
+
+    // loadAvatar = myAvatar.load(avatar);
+    // const avatarMaterial = new THREE.MeshBasicMaterial();
+    // avatarMaterial.normalMap = loadAvatar;
+    // const my = new THREE.Mesh(
+    //   new THREE.PlaneGeometry(1, 3, 3, 3),
+    //   avatarMaterial
+    // );
+    // scene.add(my)
+
+
+
+    const controls = new OrbitControls(camera, render.domElement);
     const stats = Stats();
     document.body.appendChild(stats.dom);
 
-    const grid = new THREE.GridHelper(1000, 40);
+    const grid = new THREE.GridHelper(1000, 30);
     scene.add(grid);
 
 
     const addStar = () => {
-      const starsGeometry = new THREE.SphereGeometry( 0.2, 30, 30, 30);
-      const starsMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
+      const starsGeometry = new THREE.SphereGeometry(0.2, 30, 30, 30);
+      const starsMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
       const starsMesh = new THREE.Mesh(starsGeometry, starsMaterial);
 
-      const [x, y, z] = Array(3).fill().map(()=> THREE.MathUtils.randFloatSpread(300));
+      const [x, y, z] = Array(3).fill().map(() => THREE.MathUtils.randFloatSpread(300));
 
       starsMesh.position.set(x, y, z);
       scene.add(starsMesh);
@@ -80,7 +102,7 @@ function App() {
 
 
     const animate = () => {
-
+      my.rotation.y += 0.01;
       stats.update();
       controls.update();
       render.render(scene, camera);

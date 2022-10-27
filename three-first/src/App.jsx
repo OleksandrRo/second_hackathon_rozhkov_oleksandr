@@ -2,11 +2,13 @@ import { useEffect } from 'react';
 import * as THREE from 'three';
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 import Stats from 'three/examples/jsm/libs/stats.module';
-import './App.css'
-
+import * as dat from 'dat.gui';
+import './App.css';
+import space from './textures/space.jpg';
 
 function App() {
   useEffect( () => {
+    const gui = new dat.GUI();
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -28,10 +30,15 @@ function App() {
     ambientLight.castShadow = true;
     scene.add(ambientLight);
 
-    const spotLight = new THREE.SpotLight(0xffffff, 1);
+    const spotLight = new THREE.SpotLight(0xff0000, 1);
     spotLight.castShadow = true;
     spotLight.position.set(0, 64, 32);
     scene.add(spotLight);
+
+    const spotLightControl = gui.addFolder("Spot Light")
+    spotLightControl.add(spotLight.position, "x").min(-10).max(10).step(0.1);
+    spotLightControl.add(spotLight.position, "y").min(-10).max(10).step(0.1);
+
 
     const sphereGeometry = new THREE.SphereGeometry( 10, 32, 32);
     const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
@@ -43,7 +50,7 @@ function App() {
     document.body.appendChild(stats.dom);
 
     const addStar = () => {
-      const starsGeometry = new THREE.SphereGeometry( 0.2, 32, 32);
+      const starsGeometry = new THREE.SphereGeometry( 0.2, 30, 30, 30);
       const starsMaterial = new THREE.MeshPhongMaterial({color: 0xffffff});
       const starsMesh = new THREE.Mesh(starsGeometry, starsMaterial);
 
@@ -54,10 +61,17 @@ function App() {
     }
     Array(500).fill().forEach(addStar);
 
+    // const spaceTexture = new THREE.TextureLoader();
+    // const loader = new Promise((resolve)=>resolve);
+    // loader.then(spaceTexture.load(space));
+    // scene.background = spaceTexture;
+
+    const spaceTexture = new THREE.TextureLoader();
+    scene.background = spaceTexture.load(space)
+
 
     const animate = () => {
-      // boxMesh.rotation.x += 0.01;
-      // boxMesh.rotation.y += 0.01;
+
       stats.update();
       controls.update();
       render.render(scene, camera);
@@ -67,7 +81,7 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <div >
       <canvas id="myThreeJsCanvas" />
     </div>
   )

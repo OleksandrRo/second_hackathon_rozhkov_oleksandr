@@ -40,14 +40,23 @@ function App() {
     spotLightControl.add(spotLight.position, "y").min(-10).max(10).step(0.1);
 
 
-    const sphereGeometry = new THREE.SphereGeometry( 10, 32, 32);
+    const sphereGeometry = new THREE.SphereGeometry( 16, 30, 30);
     const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
     const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
     scene.add(sphereMesh);
 
+    // const boxAvatar = new THREE.SphereGeometry( 16, 30, 30);
+    // const sphereMaterial = new THREE.MeshPhongMaterial({color: 0xffff00});
+    // const sphereMesh = new THREE.Mesh(sphereGeometry, sphereMaterial);
+    // scene.add(sphereMesh);
+
     const controls = new OrbitControls( camera, render.domElement ); 
     const stats = Stats();
     document.body.appendChild(stats.dom);
+
+    const grid = new THREE.GridHelper(1000, 40);
+    scene.add(grid);
+
 
     const addStar = () => {
       const starsGeometry = new THREE.SphereGeometry( 0.2, 30, 30, 30);
